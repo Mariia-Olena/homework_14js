@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        function Student(name, surename, birthYear) {
+            this.name = name;
+            this.surename = surename;
+            this.birthYear = birthYear;
+            this.attendance = new Array(10);
+            this.marks = new Array(10);
+        };
+
+        Student.prototype.getAge = function() {
+            return new Date().getFullYear() - this.birthYear;
+        };
+
+        Student.prototype.mark = function(markValue) {
+            if (0 <= markValue && markValue <= 10) {
+                for (let i = 0; i < this.marks.length; i++) {
+                    if (typeof this.marks[i] === 'undefined') {
+                        this.marks[i] = markValue;
+                        return 'Mark was added';
+                    };
+                };
+                return 'Mark wasn\'t added, store is full';
+            };
+            return 'Mark must be from 0 to 10';
+        };
+
+        Student.prototype.present = function() {
+            for (let i = 0; i < this.attendance.length; i++) {
+                if (typeof this.attendance[i] === 'undefined') {
+                    this.attendance[i] = true;
+                    return 'Student is present';
+                };
+            };
+            return 'Attendance wasn\'t added, store is full';
+        };   
+
+        Student.prototype.absent = function() {
+            for (let i = 0; i < this.attendance.length; i++) {
+                if (typeof this.attendance[i] === 'undefined') {
+                    this.attendance[i] = false;
+                    return 'Student is absent';
+                };
+            };
+            return 'Attendance wasn\'t added, store is full';
+        };
+
+        Student.prototype.getAverageMark = function() {
+            try {
+                const sumMarks = this.marks.reduce(function(a, b) {
+                    return a + b;
+                });
+
+                let count = 0;
+                for (let i = 0; i < this.marks.length; i++) {
+                    if (typeof this.marks[i] !== 'undefined') {
+                        count++
+                    };
+                };
+
+                averageMark = sumMarks / count;
+                return averageMark.toFixed(1);
+            } catch (error) {
+                return 'fill in the form at first';
+            };
+        };
+
+        Student.prototype.getAverageAttendance = function() {
+            try {
+                const sumAttendance = this.attendance.reduce(function(a, b) {
+                    return a + b;
+                });
+
+                let count = 0;
+                for (let i = 0; i < this.attendance.length; i++) {
+                    if (typeof this.attendance[i] !== 'undefined') {
+                        count++
+                    };
+                };
+
+                const averageAttendance = sumAttendance / count;
+                return averageAttendance.toFixed(1);
+            } catch (error) {
+                return 'fill in the form at first';
+            };
+        };
+
+        Student.prototype.summary = function() {
+            const averageMark = this.getAverageMark();
+            const averageAttendance = this.getAverageAttendance();
+
+            if ((averageMark > 9) && (averageAttendance > 0.9)) {
+                return "Ути какой молодчинка!";
+            } else if ((averageMark > 9) || (averageAttendance > 0.9)) {
+                return "Норм, но можно лучше";
+            } else if ((averageMark > 9) && (averageAttendance > 0.9)){
+                return "Редиска!";
+            } else {
+                return 'fill in the forms at first';
+            };
+        };
+
+        const student1 = new Student('Iryna', 'Boyko', 2001);
+        console.log(student1);
+        console.log(student1.summary());
+        console.log(student1.getAge());
+        console.log(student1.mark(10));
+        console.log(student1.mark(9));
+        console.log(student1.getAverageMark());
+        console.log(student1.present());
+        console.log(student1.present());
+        console.log(student1.absent());
+        console.log(student1.summary());
+    </script>
+</body>
+</html>
